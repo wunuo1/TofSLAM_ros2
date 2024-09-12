@@ -1,0 +1,35 @@
+
+add_library(${PROJECT_NAME}.loop
+        loop_close.cpp
+        graph_slam.cpp
+        interactive_graph.cpp
+        information_matrix_calculator.cpp
+        interactive_keyframe.cpp
+        keyframe.cpp
+        robust_kernel_io.cpp
+        registration_methods.cpp
+        automatic_loop_close_window.cpp
+        Scancontext.cpp
+        hfnet_database.cpp
+        #parameter_server.hpp
+        )
+
+target_link_libraries(${PROJECT_NAME}.loop
+        ${third_party_libs}
+        ${G2O_TYPES_DATA}
+        ${G2O_CORE_LIBRARY}
+        ${G2O_TYPES_SLAM3D}
+        ${G2O_TYPES_DATA}
+        ${G2O_CORE_LIBRARY}
+        ${G2O_STUFF_LIBRARY}
+        ${G2O_SOLVER_PCG}
+        ${G2O_SOLVER_CSPARSE}
+        ${G2O_SOLVER_CHOLMOD}
+        ${G2O_TYPES_SLAM3D}
+        /usr/local/lib/libg2o_types_slam3d_addons.so
+        ${catkin_LIBRARIES}
+        ${PCL_LIBRARIES}
+        ${BOOST_SERIALIZATION}
+        ${PROJECT_NAME}.ndt
+        ${PROJECT_NAME}.fgicp
+        )

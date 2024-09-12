@@ -1,0 +1,63 @@
+
+
+add_definitions(-std=c++14)
+set(CMAKE_CXX_FLAGS "-std=c++14")
+
+#if (BUILD_WITH_MARCH_NATIVE)
+#  add_compile_options(-march=native)
+#else()
+#  add_definitions(-msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2)
+#  set(CMAKE_CXX_FLAGS "-msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2")
+#endif()
+
+# pcl 1.7 causes a segfault when it is built with debug mode
+set(CMAKE_BUILD_TYPE "RELEASE")
+
+find_package(PCL 1.7 REQUIRED)
+find_package(rclcpp REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
+message(STATUS "PCL_INCLUDE_DIRS:" ${PCL_INCLUDE_DIRS})
+message(STATUS "PCL_LIBRARY_DIRS:" ${PCL_LIBRARY_DIRS})
+message(STATUS "PCL_DEFINITIONS:" ${PCL_DEFINITIONS})
+
+find_package(OpenMP REQUIRED)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
+# ROS1
+#find_package(REQUIRED COMPONENTS
+#)
+
+###################################
+## catkin specific configuration ##
+###################################
+#catkin_package(
+#  INCLUDE_DIRS include
+# LIBRARIES ndt_omp
+#)
+
+###########
+## Build ##
+###########
+include_directories(include)
+#include_directories(
+#  ${catkin_INCLUDE_DIRS}
+#)
+
+add_library(${PROJECT_NAME}.ndt
+  pclomp/voxel_grid_covariance_omp.cpp
+  pclomp/ndt_omp.cpp
+  pclomp/gicp_omp.cpp
+)
+
+target_link_libraries(${PROJECT_NAME}.ndt
+#  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+  OpenMP::OpenMP_CXX
+)
+

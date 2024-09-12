@@ -1,0 +1,98 @@
+YAML: 1.0
+
+preprocess:
+  point_filter_num: 3  #点云下采样
+  lidar_type: 5  # 1-AVIA 2-velodyne 3-ouster  4-robosense 5-pandar 6-dtof
+  blind: 0.5
+
+
+common:
+  imu_topic: /camera/imu #/imu_raw   /gps/gtimu
+  # lid_topic: /points_raw #/velodyne_points  #/points_raw  /rslidar_points /velodyne_points /livox/lidar
+  lid_topic: /pandar_points #/velodyne_points  #/points_raw  /rslidar_points /velodyne_points /livox/lidar
+  odom_topic: /odom #/robot_pose_ekf/odom_combined #
+  img_topic: /camera/color/image_raw/compressed
+  bag_name: /media/mengxinrui/e83fa02b-8f6c-4f50-9bb8-b6d4a09f68d5/mengxinrui/DTOF/hfnettestbag/merge.bag
+ 
+mapping:
+  extrinsic_est_en: true
+  # imu2tof_extrinsic_T: [ 0.01058203,  0.14498344, -0.00278965]
+  # imu2tof_extrinsic_R: [-1.00532807,-0.04238285,-0.08718256,0.02849511,-0.99926575,0.15130325,-0.09160605,0.14747703,0.99588843]
+  #imu2tof_extrinsic_T: [ 0.03432369,  0.13919756, -0.04316318]
+  #imu2tof_extrinsic_R: [-1.00908214, -0.02455202,  0.03225431, 0.02679628, -1.00625268, 0.09546909, 0.03044139,  0.09566513,  1.00593779]
+  # imu2tof_extrinsic_T: [ -0.04691775,  -0.17964415, -0.24529399]
+  # imu2tof_extrinsic_R: [-0.99990121,  0.00935265, -0.01049515, 0.01045986, -0.00380177, -0.9999376, -0.0093918,  -0.99994941,  0.0037035]
+  #  imu2tof_extrinsic_T: [ 0.02987207,  0.13925715, -0.0598709]
+  # imu2tof_extrinsic_R: [-1.00628241, -0.01971976, 0.08270039, 0.02679632, -1.00625265, 0.09546944, 0.0810476, 0.09677682, 1.00305142]
+  
+  # ----------------------------------------imu2tof----------------------------------------------
+  # imu2tof_extrinsic_T: [ 0.03044384, 0.14332027, 0.04340098]
+  # imu2tof_extrinsic_R: [-0.98669423,  0.02691415,  0.0787901, -0.01854166, -0.98426595,  0.0952102, 0.08151486,  0.09278966,  0.98140544]
+
+  # ------------------------------------------tofsim---------------------------------------------
+  # imu2tof_extrinsic_T: [ 0.01153249, -0.21423043, -0.23302207]
+  # imu2tof_extrinsic_R: [-0.99958001,  0.03131734,  0.00075193,
+  #               -0.00082919, -0.00224138, -0.99997808,
+  #               -0.04132968, -0.9990877,  -0.00329948]
+  # ------------------------------------------mid360---------------------------------------------
+  imu2tof_extrinsic_T: [ 0.01153249, -0.21423043, -0.23302207]
+  imu2tof_extrinsic_R: [1.0,  0.0,  0.0,
+                       0.0, 1.0, 0.0,
+                        0.0, 0.0, 1.0]
+  imu2robot_extrinsic_T: [0,0,0]
+  imu2robot_extrinsic_R: [-0.098844,-0.995103,0,0,0,-1,0.995103,-0.098844,0]
+#  imu2tof_extrinsic_T: [ 0.03452297,  0.13237597, -0.03332882] #[ 0,  0, 0] #
+#  imu2tof_extrinsic_R: [-0.98685058, 0.02965933,-0.07570498,-0.03602234,-0.98398182,0.09311535,-0.0718373,0.09493796,0.9819623  ] # [ 0, 0, 1, 1, 0, 0, 0, 1, 0] # 
+#  imu2robot_extrinsic_T: [0,0,0]
+#  imu2robot_extrinsic_R: [0.00030595, -0.99972739,  0.02334633 ,0.01658059, -0.02333805, -0.99959013,0.99986249,  0.00069291,  0.01656892] #[-0.10475053,-0.9943436,0.0175484,0.01580025,-0.01930734,-0.99968798,0.99437336,-0.1044406,0.01773319] #[1, 0,0,0,1,0,0,0,1] # 
+  
+#0109\0110\0113:imu2tof_extrinsic_T: [ 0.1059532,  -0.18158052, -0.00551091]
+#imu2tof_extrinsic_R: [1.00733363,-0.0543945,-0.04564266,0.04963304,0.06083459,1.00802568,-0.05199935,-1.00767939,0.06394105]
+#robot2imu_extrinsic_T: [0,0,0]
+#robot2imu_extrinsic_R:  [-0.0291608,0.99926211,-0.02499338,0.99933947,0.02968768,0.02097539 ,0.02170206,-0.02436534,-0.99946678]
+#0116\0117\0119\0124:imu2tof_extrinsic_T: [ 0.01058203,  0.14498344, -0.00278965]
+#imu2tof_extrinsic_R: [-1.00532807,-0.04238285,-0.08718256,0.02849511,-0.99926575,0.15130325,-0.09160605,0.14747703,0.99588843]
+#imu2robot_extrinsic_T: [0,0,0]
+#imu2robot_extrinsic_R: [-0.098844,-0.995103,0,0,0,-1,0.995103,-0.098844,0]
+#imu2lidar*[0,-1,0,1,0,0,0,0,1]
+delay_time: 0.3
+
+odometry:
+  wheelmode: 1 #0-relativepose 1-velocity
+  surf_res: 0.1 #0.4
+  log_print: true
+  max_num_iteration: 5
+  # ct_icp
+  icpmodel: CT_POINT_TO_PLANE  # CT_POINT_TO_PLANE  #CT_POINT_TO_PLANE                    # Options: [CT_POINT_TO_PLANE, POINT_TO_PLANE]
+  size_voxel_map: 0.1 #0.4                         # The voxel size of in the voxel map
+  min_distance_points: 0.05
+  max_num_points_in_voxel: 20                 # The maximum number of points per voxel of the map
+  max_distance: 50.0                        # The threshold of the distance to suppress voxels from the map
+  weight_alpha: 0.9
+  weight_neighborhood: 0.1
+  max_dist_to_plane_icp: 0.1 #0.3
+  init_num_frames: 20
+  voxel_neighborhood: 1
+  max_number_neighbors: 20
+  threshold_voxel_occupancy: 1
+  estimate_normal_from_neighborhood: true
+  min_number_neighbors: 20                    # The minimum number of neighbor points to define a valid neighborhood
+  power_planarity: 2.0
+  num_closest_neighbors: 1
+
+  sampling_rate: 1.0
+  ratio_of_nonground: 2
+  # max_num_residuals: 1000
+  max_num_residuals: 1000
+  min_num_residuals: 100
+  motion_compensation: CONSTANT_VELOCITY #NONE #CONSTANT_VELOCITY  #CONTINUOUS #NONE, CONSTANT_VELOCITY, ITERATIVE, CONTINUOUS
+  beta_location_consistency: 1.0
+  beta_orientation_consistency: 1.0
+  beta_constant_velocity: 1.0
+  beta_small_velocity: 0.0
+
+  thres_translation_norm: 0.03           # m
+  thres_orientation_norm: 0.05             # deg
+
+  use_ground_constraint: 0
+

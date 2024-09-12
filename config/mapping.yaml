@@ -1,0 +1,96 @@
+YAML: 1.0
+
+preprocess:
+  point_filter_num: 3  #点云下采样
+  lidar_type: 7  # 1-AVIA 2-velodyne 3-ouster  4-robosense 5-pandar 6-dtof 7-mtof
+  blind: 0.01
+
+
+common:
+  # imu_topic: /imu #/imu_raw   /gps/gtimu
+  # lid_topic: /nebula/mtof_points2 #/velodyne_points  #/points_raw  /rslidar_points /velodyne_points /livox/lidar
+  # # lid_topic: /pandar_points #/velodyne_points  #/points_raw  /rslidar_points /velodyne_points /livox/lidar
+  # odom_topic: /odom #/robot_pose_ekf/odom_combined #
+  # img_topic: /camera/color/image_raw/compressed
+  # Localization_mode: False
+  # #bag_name: /media/mengxinrui/e83fa02b-8f6c-4f50-9bb8-b6d4a09f68d5/mengxinrui/DTOF/hfnettestbag/merge.bag
+  # output_path: /root/test_slam_ws/output
+  # model_path: /root/ct-lio/model/hfnet_x3_2.bin
+  # imuhz: 100
+
+  imu_topic: /imu0 #/imu_raw   /gps/gtimu
+  lid_topic: /nebula200/mtof_points2 #/velodyne_points  #/points_raw  /rslidar_points /velodyne_points /livox/lidar
+  odom_topic: /odom #/robot_pose_ekf/odom_combined #
+  img_topic: /nebula200/mtof_rgb/image_raw
+  Localization_mode: True
+  output_path: /root/tofslam2_ws/output
+  model_path: /root/ct-lio/model/hfnet_x3_2.bin
+  imuhz: 400
+
+mapping:
+  # extrinsic_est_en: true
+  # tof2imu_extrinsic_T: [0.26686538, 0.00499458, -0.02465013]
+  # tof2imu_extrinsic_R: [-0.00595152,  0.09132614,  0.98490153, -0.98979313, -0.02787992, -0.00281097, 0.02823146, -0.98446192,  0.09084272]
+
+  # robot2imu_extrinsic_T: [0,0,0]
+  # robot2imu_extrinsic_R: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+
+
+
+  tof2imu_extrinsic_T: [ -0.0039799203111821468, -0.027189542185995823831, -0.14001955020902342461]
+  tof2imu_extrinsic_R: [-0.993063627638373553564 ,0.052518963674774226572 ,-0.01498737732389914978, 
+                        -0.033814436045461613632 ,-0.016796566829113524293 ,-0.99928717438014507495, 
+                        -0.00801808196977665167 ,-0.99847864521832871386  ,0.03465425204866725379]
+  
+  robot2imu_extrinsic_T: [0.12588064308116462841, 0.008162559660163853708, 0.20705414746130172184]
+  robot2imu_extrinsic_R: [0.052268869631951098023, -0.93852017660344945467, 0.033846560965168889575, 
+                          0.93808656435923075909, -0.051737213472478319612, 0.015014368436287678477, 
+                          0.033019704102458273174	, 0.01675474093936925155, 0.99931446977489903968]
+
+delay_time: 0.3
+
+odometry:
+  wheelmode: 1 #0-relativepose 1-velocity
+  surf_res: 0.1 #0.4
+  log_print: true
+  max_num_iteration: 5
+  # ct_icp
+  icpmodel: CT_POINT_TO_PLANE  # CT_POINT_TO_PLANE  #CT_POINT_TO_PLANE                    # Options: [CT_POINT_TO_PLANE, POINT_TO_PLANE]
+  size_voxel_map: 0.1 #0.4                         # The voxel size of in the voxel map
+  min_distance_points: 0.05
+  max_num_points_in_voxel: 20                 # The maximum number of points per voxel of the map
+  max_distance: 50.0                        # The threshold of the distance to suppress voxels from the map
+  weight_alpha: 0.9
+  weight_neighborhood: 0.1
+  max_dist_to_plane_icp: 0.1 #0.3
+  init_num_frames: 20
+  voxel_neighborhood: 1
+  max_number_neighbors: 20
+  threshold_voxel_occupancy: 1
+  estimate_normal_from_neighborhood: true
+  min_number_neighbors: 20                    # The minimum number of neighbor points to define a valid neighborhood
+  power_planarity: 2.0
+  num_closest_neighbors: 1
+
+  sampling_rate: 1.0
+  ratio_of_nonground: 2
+  # max_num_residuals: 1000
+  max_num_residuals: 2000
+  min_num_residuals: 100
+  motion_compensation: CONSTANT_VELOCITY #NONE #CONSTANT_VELOCITY  #CONTINUOUS #NONE, CONSTANT_VELOCITY, ITERATIVE, CONTINUOUS
+  beta_location_consistency: 1.0
+  beta_orientation_consistency: 1.0
+  beta_constant_velocity: 1.0
+  beta_small_velocity: 0.0
+
+  thres_translation_norm: 0.03           # m
+  thres_orientation_norm: 0.05             # deg
+
+  use_ground_constraint: 0
+
+reloc:
+  mapfile: /root/tofslam2_ws/output/final-voxel.pcd
+  reloc_mode: 0  #0-scancontext 1-hfnet  2-no
+  scancontext_dbfile: /root/tofslam2_ws/output/ScanContext.bin
+  hfnet_dbfile: /root/tofslam2_ws/output/HFNet.bin
+  icp_threshold: 0.03

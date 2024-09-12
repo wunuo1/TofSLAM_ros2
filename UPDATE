@@ -1,0 +1,10 @@
+2024.0407更新
+1. 回环优化使用fastICP，提高速度
+2. 当measures_里不存在img_时，不填加关键帧，防止回环检测使用hfnet时，图像不存在的情况出现。
+2024.0805更新
+1. output路径放到config文件中，便于更改
+2. model路径放到config文件中，便于更改
+3. 加了两个宏定义在onnx_read.h里，关于是否使用x3编译与是否使用onnx1.9.0编译，方便适应不同环境
+4. imuhz参数写到config里，便于更改
+5. mapping与localization代码merge
+6. 加入mtof支持
